@@ -2,6 +2,7 @@ import { uploadCharacterImg } from './character/ImgUpload.js'
 import { getOriginalPicture } from './profile/ProfileUtils.js'
 import Avatar from './character/AvatarCard.js'
 import Wife from './character/AvatarWife.js'
+import * as AliasManager from './character/AliasManager.js'
 import { App } from '#miao'
 
 let app = App.init({
@@ -30,6 +31,21 @@ app.reg({
     rule: /^#?(获取|给我|我要|求|发|发下|发个|发一下)?原图(吧|呗)?$/,
     fn: getOriginalPicture,
     describe: '【#原图】 回复角色卡片，可获取原图'
+  },
+  addAlias: {
+    rule: /^#别名添加\s*\S+\s*\S+$/,
+    fn: AliasManager.addAlias,
+    name: '添加角色别名'
+  },
+  removeAlias: {
+    rule: /^#别名删除\s*\S+$/,
+    fn: AliasManager.removeAlias,
+    name: '删除角色别名'
+  },
+  listAliases: {
+    rule: /^#自定义别名列表$/,
+    fn: AliasManager.listAliases,
+    name: '自定义别名列表'
   }
 })
 
