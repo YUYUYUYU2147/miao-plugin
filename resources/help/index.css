@@ -45,7 +45,7 @@ body {
 .help-table .th {
   font-size: 14px;
   display: table-cell;
-  box-shadow: 0 0 1px 0 #888 inset;
+  box-shadow: 0 0 1px 0 c inset;
   padding: 12px 0 12px 50px;
   line-height: 24px;
   position: relative;
@@ -67,11 +67,11 @@ body {
   border-radius: 5px;
   left: 6px;
   top: 12px;
-  transform: scale(0.85);
+  transform: scale(1.2);
 }
 .help-title {
   display: block;
-  color: #d3bc8e;
+  color: #fff;
   font-size: 16px;
   line-height: 24px;
 }
