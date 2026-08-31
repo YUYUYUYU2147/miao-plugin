@@ -125,7 +125,8 @@ let GachaData = {
       items.push({
         id,
         logId: ds.id,
-        time: new Date(ds.time)
+        time: new Date(ds.time),
+        count: ds.gacha_count || 0
       })
     })
     items = items.sort((a, b) => b.time - a.time)
@@ -187,7 +188,11 @@ let GachaData = {
       if (star === 5) {
         fiveNum++
         if (fiveLog.length > 0) {
-          fiveLog[fiveLog.length - 1].count = fiveLogNum
+          // gacha_count 缺失的五星，用间隔计数兜底
+          let lastFive = fiveLog[fiveLog.length - 1]
+          if (!lastFive.count) {
+            lastFive.count = fiveLogNum
+          }
         } else {
           noFiveNum = fiveLogNum
         }
@@ -211,6 +216,8 @@ let GachaData = {
         fiveLog.push({
           id: item.id,
           isUp,
+          // 优先使用 gacha_count（与官方跃迁记录的保底进度一致），缺失时退回间隔计数
+          count: item.count || 0,
           date: moment(item.time).format('MM-DD')
         })
       }
@@ -218,7 +225,9 @@ let GachaData = {
     })
 
     if (fiveLog.length > 0) {
-      fiveLog[fiveLog.length - 1].count = fiveLogNum
+      // 最旧的五星若无 gacha_count，用间隔计数兜底
+      let lastFive = fiveLog[fiveLog.length - 1]
+      lastFive.count = lastFive.count || fiveLogNum
     } else {
       // 没有五星
       noFiveNum = allNum
