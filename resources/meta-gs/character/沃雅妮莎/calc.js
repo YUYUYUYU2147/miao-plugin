@@ -13,6 +13,12 @@ export const details = [
     dmg: ({ attr, calc, talent }, { heal }) => heal(calc(attr.hp) * talent.e['遥久之歌治疗量2'][1] / 100 + talent.e['遥久之歌治疗量2'][0])
   },
   {
+    check: ({ cons }) => cons >= 1,
+    params: ({ cons }) => ({ cons_4: cons >= 4 }),
+    title: '1命提供攻击力提升',
+    dmg: ({ attr, calc }) => { return { avg: calc(attr.hp) * 0.8 / 100 }}
+  },
+  {
     cons: 4,
     title: '4命buff E唤春角笛后台伤害',
     params: { cons_4: true },
@@ -23,10 +29,23 @@ export const details = [
     title: '4命buff Q技能伤害',
     params: { q: true, cons_4: true },
     dmg: ({ attr, calc, talent }, { basic }) => basic(calc(attr.hp) * talent.q['技能伤害'] / 100, 'q')
+  },
+  {
+    title: '每层羽毛提供星扩散提升',
+    dmg: ({ attr, calc }) => ({
+      avg: Math.min(Math.max(calc(attr.hp) - 40000, 0) / 1000 * 260, 6500)
+    })
+  },
+  {
+    title: '(双水)每层羽毛提供冰水伤害提升',
+    params: { hydroCryo: true },
+    dmg: ({ attr, calc }) => ({
+      avg: Math.min(Math.max(calc(attr.hp) - 40000, 0) / 1000 * 140, 3500)
+    })
   }
 ]
 
-export const defDmgIdx = 1
+export const defDmgIdx = 2
 export const mainAttr = 'hp,cpct,cdmg'
 
 export const buffs = [
@@ -57,6 +76,13 @@ export const buffs = [
     data: {
       cdmg: 50,
       dmg: 60
+    }
+  },
+  {
+    check: ({ params }) => params.hydroCryo === true,
+    title: '(仅供羽毛提升计算)冰水队双水共鸣：生命值上限提升[hpPct]%',
+    data: {
+      hpPct: 25
     }
   }
 ]
